@@ -2,11 +2,18 @@ import { useState } from "react"
 import { View, Text, StyleSheet, TextInput, Image, Switch, TouchableHighlight } from "react-native"
 
 import Logo from '../../../assets/images/Logo.png'
-import { isEnabled } from "react-native/Libraries/Performance/Systrace"
+import { useNavigation } from "@react-navigation/native"
+import { StackNavigationProp } from "@react-navigation/stack"
+import { RootStackParamList } from "../navigation/AppNavigation"
+
+type loginScreenProp = StackNavigationProp<RootStackParamList, 'Login'>;
+
 export const Login = () => {
     const [email, onChangeEmail] = useState('')
     const [isFocused, setIsFocused] = useState(false)
     const [isRemember, setIsRemember] = useState(false)
+
+    const navigation = useNavigation<loginScreenProp>();
 
     const handleOnFocusInput = () => {
         setIsFocused(true)
@@ -17,6 +24,9 @@ export const Login = () => {
     }
     const handleToggleSwitch = () => {
         setIsRemember(prev => !prev)
+    }
+    const handleResgisterClick = () => {
+        navigation.navigate('Register');
     }
     return (
         <View style={styles.container}>
@@ -52,10 +62,13 @@ export const Login = () => {
                     style={{ width: 'auto' }} />
                 <Text style={{ marginLeft: 10, color: 'white', fontSize: 14, fontWeight: '600' }}>Remember me?</Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+            <View style={[styles.centerItem, { marginBottom: 20 }]}>
                 <TouchableHighlight style={styles.buttonBackground}>
                     <Text style={{ color: 'white', fontWeight: '700', fontSize: 20 }}>Log In</Text>
                 </TouchableHighlight>
+            </View>
+            <View style={styles.centerItem}>
+                <Text style={[styles.text, { fontSize: 18 }]} onPress={handleResgisterClick}>Regiser account?</Text>
             </View>
         </View>
     )
@@ -99,5 +112,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20
+    },
+    centerItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })
